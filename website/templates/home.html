@@ -1,6 +1,23 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+{% extends "base.html" %} {% block title %}Text2Image{% endblock %} {% block content
 %}
-<h1 align="center">Notes</h1>
+<h1 align="center">Text2Image</h1>
+
+<div align="center">
+  <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="My image" style="height: 500px; margin-bottom: 20px;">  
+</div>
+
+<input
+  type="prompt"
+  class="form-control"
+  id="prompt"
+  name="prompt"
+  placeholder="Enter prompt..."  
+/>
+
+<div align="center">
+  <button class="btn btn-primary" style="margin-top: 20px; margin-bottom: 100px;">Add Note</button>
+</div>
+
 <ul class="list-group list-group-flush" id="notes">
   {% for note in user.notes %}
   <li class="list-group-item">
