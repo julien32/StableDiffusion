@@ -14,13 +14,28 @@
   placeholder="Enter prompt..."  
 />
 
+<script>
+  $(document).ready(function() {
+    $('#update-button').click(function() {
+      fetch('/run_text2Img')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('log').innerHTML = data.toString();
+        console.log(data);
+      });
+    });
+  });
+</script>
+
 <div align="center">
-  <button class="btn btn-primary" style="margin-top: 20px; margin-bottom: 100px;" onclick="run_text2Img()">Generate Image</button>
+  <button class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="update-button">Generate Image</button>
 </div>
 
-{% if user.run_txt2Img != "" %}
-<p align="center">{{user.run_txt2Img}}</p>
-{% endif %}
+<p style="margin-bottom: 100px;" id="log"></p>
+
+
+
+
 
 <ul class="list-group list-group-flush" id="notes">
   {% for note in user.notes %}

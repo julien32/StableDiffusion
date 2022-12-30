@@ -7,7 +7,7 @@ functions = Blueprint('functions', __name__)
 @functions.route('/run_text2Img')
 @login_required
 def run_text2Img():
-    command = "ls -l"
+    command = "ls -l /Users/*"
     output = subprocess.run(command, shell=True, capture_output=True)
     print(output)
 
