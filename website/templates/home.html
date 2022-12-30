@@ -11,13 +11,17 @@
   class="form-control"
   id="prompt"
   name="prompt"
-  placeholder="Enter prompt..."  
+  placeholder="Enter command prompt... (ls -l)"  
 />
 
 <script>
+  
   $(document).ready(function() {
+    
     $('#update-button').click(function() {
-      fetch('/run_text2Img')
+      prompt = document.getElementById("prompt").value;
+
+      fetch('/run_text2Img/' + prompt)
       .then(response => response.text())
       .then(data => {
         document.getElementById('log').innerHTML = data.toString();
