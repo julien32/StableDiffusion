@@ -6,3 +6,11 @@ function deleteNote(noteId) {
     window.location.href = "/";
   });
 }
+
+function run_text2Img(prompt) {
+  fetch('/run_text2Img')
+    .then(response => response.text())
+    .then(data => {
+      console.log(data);
+    });
+}
