@@ -7,10 +7,10 @@ function deleteNote(noteId) {
   });
 }
 
-function run_text2Img(prompt) {
-  fetch('/run_text2Img')
-    .then(response => response.text())
-    .then(data => {
-      console.log(data);
-    });
-}
+// function run_text2Img(prompt) {
+//   fetch('/run_text2Img')
+//     .then(response => response.text())
+//     .then(data => {
+//       console.log(data);
+//     });
+// }

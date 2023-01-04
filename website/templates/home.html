@@ -3,7 +3,7 @@
 <h1 align="center">Text2Image {{user.first_name}}</h1>
 
 <div align="center">
-  <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="My image" style="height: 500px; margin-bottom: 20px;">  
+  <img id="img" alt="My image" style="height: 500px; margin-bottom: 20px;">  
 </div>
 
 <input
@@ -16,17 +16,28 @@
 
 <script>
   
+  const loadImageIfAvailable = () => {
+    const imgElement = document.getElementById('img');
+    imgElement.src = "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
+  };
+
+  setInterval(loadImageIfAvailable, 1000);
+
   $(document).ready(function() {
     
     $('#update-button').click(function() {
       prompt = document.getElementById("prompt").value;
-
-      fetch('/run_text2Img/' + prompt)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('log').innerHTML = data.toString();
-        console.log(data);
+      
+      if (prompt == "") {
+        document.getElementById('log').innerHTML = "Plese insert a prompt"
+      } else {
+        fetch('/run_text2Img/' + prompt)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('log').innerHTML = data.toString();
+          console.log(data);
       });
+      }
     });
   });
 </script>
