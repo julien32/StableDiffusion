@@ -1,18 +1,114 @@
 {% extends "base.html" %} {% block title %}Text2Image{% endblock %} {% block content
 %}
-<h1 align="center">Text2Image {{user.first_name}}</h1>
 
-<div align="center">
-  <img id="img" alt="My image" style="height: 500px; margin-bottom: 20px;">  
-</div>
+<style>
 
-<input
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+ }
+
+
+ .grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.grid-item {
+  position: relative;
+  width: 100%;
+  transition: all 0.5s ease;
+}
+
+.grid-item:hover {
+  filter: brightness(0) invert(1);
+}
+
+.grid-item:hover:after {
+  content: attr(alt);
+  position: absolute;
+  background-color: rgba(0,0,0,0.6);
+  color: #000;
+  padding: 5px;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transition: all 0.5s ease;
+  opacity: 1;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+input[type="prompt"] {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid rgb(240, 240, 240);
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  box-shadow: 0px 10px 10px rgb(240, 240, 240);
+}
+
+button[type="submit"] {
+  background-color: rgb(235, 235, 235);
+  color: gray;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="submit"]:hover {
+  background-color: rgb(220, 220, 220);
+  transition: all 0.5s ease-out;
+}
+
+
+
+ 
+ 
+</style>
+
+
+
+<!-- <div align="center">
+  <input
   type="prompt"
   class="form-control"
   id="prompt"
   name="prompt"
   placeholder="Enter command prompt... (ls -l)"  
 />
+  <button class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="update-button">Generate Image</button>
+</div>   -->
+
+<form style="margin-top: 180px;">
+  <div class="input-container">
+      <input type="prompt" id="prompt" name="prompt" placeholder="Enter your name">
+      <button type="submit">Submit</button>
+  </div>
+</form>
+
+
+<!-- <div align="center">
+  <img id="img" alt="My image" style="height: 500px; margin-bottom: 20px;">  
+</div> -->
 
 <script>
   
@@ -42,11 +138,32 @@
   });
 </script>
 
-<div align="center">
-  <button class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="update-button">Generate Image</button>
-</div>
+
 
 <p style="margin-bottom: 100px;" id="log"></p>
+
+
+<div class="grid-container">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 1">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 2">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 3">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 4">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 5">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 6">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 1">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 2">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 3">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 4">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 5">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 6">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 1">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 2">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 3">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 4">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 5">
+  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 6">
+</div>
+
 
 
 
