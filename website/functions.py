@@ -11,4 +11,4 @@ def run_text2Img(prompt):
     output = subprocess.run(command, shell=True, capture_output=True)
     print(output)
 
-    return output.stdout
+    return "hello"
