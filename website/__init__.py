@@ -8,21 +8,25 @@ DB_NAME = "database.db"
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="/home/lamparter/stableDiffusion/StableDiffusionFlask/static/")
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///database.db'
+    app.config['UPLOAD_FOLDER'] = '/home/lamparter/stableDiffusion/StableDiffusionFlask/static/upload_folder'
+    
     db.init_app(app)
 
     from .views import views
     from .auth import auth
     from .functions import functions
+    from .train_lora import train_lora
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(functions, url_prefix='/')
+    app.register_blueprint(train_lora, url_prefix='/')
     
 
-    from .models import User, Note
+    from .models import User, Note, Img
 
     create_database(app)
 

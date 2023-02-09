@@ -24,27 +24,6 @@
   transition: all 0.5s ease;
 }
 
-.grid-item:hover {
-  filter: brightness(0) invert(1);
-}
-
-.grid-item:hover:after {
-  content: attr(alt);
-  position: absolute;
-  background-color: rgba(0,0,0,0.6);
-  color: #000;
-  padding: 5px;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  transition: all 0.5s ease;
-  opacity: 1;
-}
 
 .input-container {
   display: flex;
@@ -74,116 +53,202 @@ button[type="submit"] {
   font-size: 16px;
 }
 
+.bt {
+  background-color: rgb(235, 235, 235);
+  color: gray;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+select {
+  background-color: rgb(235, 235, 235);
+  color: gray;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 button[type="submit"]:hover {
   background-color: rgb(220, 220, 220);
   transition: all 0.5s ease-out;
 }
 
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid rgb(143, 106, 106);
+  border-color: rgb(143, 106, 106) transparent rgb(143, 106, 106) transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
 
+/* ----- Style the elements ----- */
 
+  /* Wrap the image and alt text */
+  /* Will be added with js */
+  .alt-wrap { 
+    display: block;
+    position: relative;
+    color: whitesmoke;
+  }
+
+/* The alt text itself */
+/* Will be added with js */
+  .alt-wrap p.alt {
+    position: absolute;
+    opacity: 0; /* hide initially */
+    left: 0; right: 0; bottom: 0;
+    margin: 0;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 22px;
+    background-color: rgba(0,0,0,0.8);
+    transition: all 300ms ease;
+    transition-delay: 300ms;
+  }
+
+/* Hovering over the wrapper shows its alt p*/
+  .alt-wrap:hover > p.alt { 
+    opacity: 1; 
+    transition-delay: 0s;
+  }
+
+  .img-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .img { display: block; }
  
  
 </style>
 
+<!-- <h1>Hello {{user.first_name}}</h1> -->
 
+<div style="margin-top: 150px;" class="input-container">
+  <select name="" id="model-selector" style="margin-right: 5px;">
+    <optgroup label="Default model">
+      <option value="stable-diffusion-v1-5">default</option>
+    </optgroup>
+    <optgroup label="Your trained models">
+      <option value="step_1000.safetensors">Olaf</option>
+    </optgroup>
+  </select>
+    <input type="prompt" id="prompt" name="prompt" placeholder="A Pop Art image of a car...">
+    <button class="bt" style="margin-left: 5px;" id="create-image">Generate</button>
+</div>
 
 <div align="center">
-  <input
-  type="prompt"
-  class="form-control"
-  id="prompt"
-  name="prompt"
-  placeholder="Enter command prompt... (ls -l)"  
-/>
-  <button class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="update-button">Generate Image</button>
-</div>  
+  <div id="loadingIndicator" class="lds-hourglass" style="display: none; margin-top: 50px; margin-bottom: 50px;"></div>
+</div>
 
-<form style="margin-top: 180px;">
-  <div class="input-container">
-      <input type="prompt" id="prompt" name="prompt" placeholder="Enter your name">
-      <button type="submit">Submit</button>
+
+<div style="margin-top:80px">
+    {% if user.images %}
+      <h3>Your generated images...</h3>
+    {% endif %}
+
+  <div class="grid-container">
+
+    {% for image in user.images|reverse %}
+    <div>
+        <img src="/static/generated_images/{{image.image_path}}" class="grid-item img modal-dialog modal-fullscreen-sm-down" alt="Prompt: {{image.prompt}} | Model: {{image.model}}" title="asdfasdf">
+        <a class="btn btn-danger" role="button" href="/static/generated_images/{{image.image_path}}" download="proposed_file_name">Download</a>
+    </div>
+  
+    {% endfor %}
   </div>
-</form>
+</div>
 
 
-<!-- <div align="center">
-  <img id="img" alt="My image" style="height: 500px; margin-bottom: 20px;">  
-</div> -->
+<div style="margin-top:80px">
+  <h3>Other users created...</h3>
+  <div class="grid-container">
+    {% for image in random_images %}
+  
+    <div>
+        <img src="{{image.image_path}}" class="grid-item img modal-dialog modal-fullscreen-sm-down" alt="Prompt: {{image.prompt}} | Model: {{image.model}}">
+        <a class="btn btn-danger" role="button" href="{{image.image_path}}" download="proposed_file_name">Download</a>
+    </div>
+  
+    {% endfor %}
+  </div>
+</div>
 
 <script>
-  
-  const loadImageIfAvailable = () => {
-    const imgElement = document.getElementById('img');
-    imgElement.src = "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
-  };
-
-  setInterval(loadImageIfAvailable, 1000);
 
   $(document).ready(function() {
     
-    $('#update-button').click(function() {
+    //image hover
+    $(".img").wrap('<div class="alt-wrap"/>');
+    $(".img").each(function() {
+      $(this).after('<p class="alt">' + $(this).attr('alt') + '</p>');
+    })
+    
+    //run lora
+    $('#create-image').click(function() {
+      loadingIndicator = document.getElementById("loadingIndicator")
       prompt = document.getElementById("prompt").value;
+
+      //get selection
+      var select = document.getElementById("model-selector");
+      var selectedOption = select.options[select.selectedIndex].value;
       
       if (prompt == "") {
-        document.getElementById('log').innerHTML = "Plese insert a prompt"
+        document.getElementById('prompt').placeholder = "Plese insert a prompt...";
       } else {
-        fetch('/run_text2Img/' + prompt)
+
+        loadingIndicator.style.display = "inline-block";
+
+        fetch('/run_lora/' + prompt + '/' + selectedOption)
         .then(response => response.text())
         .then(data => {
-          document.getElementById('log').innerHTML = data.toString();
+          loadingIndicator.style.display = "none";
           console.log(data);
+          window.location.reload();
       });
       }
     });
   });
+
+  
 </script>
 
 
 
-<p style="margin-bottom: 100px;" id="log"></p>
 
-
-<div class="grid-container">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 1">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 2">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 3">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 4">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 5">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 6">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 1">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 2">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 3">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 4">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 5">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 6">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 1">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 2">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 3">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 4">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 5">
-  <img src="https://cdn.openai.com/dall-e-2/demos/text2im/astronaut/horse/photo/0.jpg" class="grid-item" alt="image 6">
-</div>
-
-
-
-
-
-
-<ul class="list-group list-group-flush" id="notes">
-  {% for note in user.notes %}
-  <li class="list-group-item">
-    {{ note.data }}
-    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </li>
-  {% endfor %}
-</ul>
-<form method="POST">
-  <textarea name="note" id="note" class="form-control"></textarea>
-  <br />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Add Note</button>
-  </div>
-</form>
 {% endblock %}
+
