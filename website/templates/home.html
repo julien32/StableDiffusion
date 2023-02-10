@@ -161,11 +161,19 @@ button[type="submit"]:hover {
 <div style="margin-top: 150px;" class="input-container">
   <select name="" id="model-selector" style="margin-right: 5px;">
     <optgroup label="Default model">
-      <option value="stable-diffusion-v1-5">default</option>
+      <option value="stable-diffusion-v1-5">stable diffusion</option>
     </optgroup>
-    <optgroup label="Your trained models">
-      <option value="step_1000.safetensors">Olaf</option>
+
+    {% if user_trained_models|length > 0 %}
+      <optgroup label="Your trained models">
+        {% for trained_model in user_trained_models %}
+        <option value="{{trained_model}}">{{ trained_model.split("_")[0] }}</option>        
+        {% endfor %}
+    {% else %}
+      <optgroup label="You have no trained models yet...">
+    {% endif %}
     </optgroup>
+
   </select>
     <input type="prompt" id="prompt" name="prompt" placeholder="A Pop Art image of a car...">
     <button class="bt" style="margin-left: 5px;" id="create-image">Generate</button>
@@ -174,7 +182,6 @@ button[type="submit"]:hover {
 <div align="center">
   <div id="loadingIndicator" class="lds-hourglass" style="display: none; margin-top: 50px; margin-bottom: 50px;"></div>
 </div>
-
 
 <div style="margin-top:80px">
     {% if user.images %}
@@ -200,7 +207,7 @@ button[type="submit"]:hover {
     {% for image in random_images %}
   
     <div>
-        <img src="{{image.image_path}}" class="grid-item img modal-dialog modal-fullscreen-sm-down" alt="Prompt: {{image.prompt}} | Model: {{image.model}}">
+        <img src="{{image.image_path}}" class="grid-item img modal-dialog modal-fullscreen-sm-down" alt="Prompt: {{image.prompt}} | Model: {{ image.model }}">
         <a class="btn btn-danger" role="button" href="{{image.image_path}}" download="proposed_file_name">Download</a>
     </div>
   
@@ -238,7 +245,8 @@ button[type="submit"]:hover {
         .then(data => {
           loadingIndicator.style.display = "none";
           console.log(data);
-          window.location.reload();
+          window.location.href = "/generated_images";
+          //window.location.reload();
       });
       }
     });

@@ -8,6 +8,7 @@ from PIL import Image
 import glob
 import os
 from lora_diffusion.cli_lora_pti import train as train_lora_source
+import uuid
 
 train_lora = Blueprint('train_lora', __name__)
 root_dir = "/home/lamparter/stableDiffusion"
@@ -16,7 +17,7 @@ def run_train_lora(imagepath, token, template):
     train_lora_source(
             instance_data_dir = imagepath,
             pretrained_model_name_or_path = '{0}/models/stable-diffusion-v1-5'.format(root_dir),
-            output_dir = '{0}/StableDiffusionFlask/static/trained_models'.format(root_dir),
+            output_dir = '{0}/StableDiffusionFlask/static/trained_models/{1}/{2}'.format(root_dir, current_user.id, token),
             train_text_encoder = True,
             resolution = 256,
             train_batch_size = 1,
@@ -39,7 +40,7 @@ def run_train_lora(imagepath, token, template):
             weight_decay_lora = 0.001,
             continue_inversion = True,
             continue_inversion_lr = 1e-4,
-            device = "cuda:0",
+            device = "cuda:3",
             lora_rank = 1
     )
 
@@ -47,13 +48,21 @@ def run_train_lora(imagepath, token, template):
 @train_lora.route("/train_lora", methods=['GET', 'POST'])
 @login_required
 def train():
-    user_id = current_user.email
+
     if request.method == 'POST':
+        
         save_path = '/home/lamparter/stableDiffusion/StableDiffusionFlask/static/upload_folder'
         files=request.files.getlist("files[]")
+        
         for file in files:
             file.save(os.path.join(save_path, file.filename))
-        run_train_lora(save_path, request.form['token'], request.form['type'])
-        return "Hallo"
+            
+        text_field_token = request.form['token']
+        token =  str(text_field_token) + "_" + str(uuid.uuid4())    
+        
+        run_train_lora(save_path, token, request.form['type'])    
+
+        return render_template("train_lora.html", user=current_user)
+    
     return render_template("train_lora.html", user=current_user)
 
