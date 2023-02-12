@@ -179,11 +179,56 @@ button[type="submit"]:hover {
     <button class="bt" style="margin-left: 5px;" id="create-image">Generate</button>
 </div>
 
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="createGif">
-  <label class="form-check-label" for="flexCheckDefault">
-    Create GIF
-  </label>
+<div>
+  <div id="gifCheckboxDiv" class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="createGif">
+    <label class="form-check-label" for="flexCheckDefault">
+      Create GIF
+    </label>
+  </div>
+  
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="compare">
+    <label class="form-check-label" for="flexCheckDefault">
+        Compare Models
+    </label>
+  </div>
+</div>
+
+<div class="mt-5" id="selection-menu" style="display: none;">
+  <h4>Compare models</h4>
+  <select id="compare-model-selector-1" class="form-select" aria-label="Select first model">
+    <optgroup label="Default model">
+      <option value="stable-diffusion-v1-5">stable diffusion</option>
+    </optgroup>
+
+    {% if user_trained_models|length > 0 %}
+      <optgroup label="Your trained models">
+        {% for trained_model in user_trained_models %}
+        <option value="{{trained_model}}">{{ trained_model.split("_")[0] }}</option>        
+        {% endfor %}
+    {% else %}
+      <optgroup label="You have no trained models yet...">
+    {% endif %}
+    </optgroup>
+  </select>
+
+  <select id="compare-model-selector-2" class="form-select" aria-label="Select second model">
+    <optgroup label="Default model">
+      <option value="stable-diffusion-v1-5">stable diffusion</option>
+    </optgroup>
+
+    {% if user_trained_models|length > 0 %}
+      <optgroup label="Your trained models">
+        {% for trained_model in user_trained_models %}
+        <option value="{{trained_model}}">{{ trained_model.split("_")[0] }}</option>        
+        {% endfor %}
+    {% else %}
+      <optgroup label="You have no trained models yet...">
+    {% endif %}
+    </optgroup>
+  </select>
+  
 </div>
 
 <div align="center">
@@ -225,6 +270,9 @@ button[type="submit"]:hover {
 <script>
 
   $(document).ready(function() {
+    const compareCheckbox = document.querySelector("#compare");
+    const createGifCheckbox = document.querySelector("#gifCheckboxDiv");
+    const selectionMenu = document.querySelector("#selection-menu");
     
     //image hover
     $(".img").wrap('<div class="alt-wrap"/>');
@@ -232,36 +280,82 @@ button[type="submit"]:hover {
       $(this).after('<p class="alt">' + $(this).attr('alt') + '</p>');
     })
     
-    //run lora
+    //create image
     $('#create-image').click(function() {
-      loadingIndicator = document.getElementById("loadingIndicator")
-      prompt = document.getElementById("prompt").value;
-
-      //get selection
-      var select = document.getElementById("model-selector");
-      var selectedOption = select.options[select.selectedIndex].value;
-      
-      if (prompt == "") {
-        document.getElementById('prompt').placeholder = "Plese insert a prompt...";
+      if (compareCheckbox.checked) {
+        loadingIndicator = document.getElementById("loadingIndicator")
+        prompt = document.getElementById("prompt").value;
+  
+        //get selection
+        var select1 = document.getElementById("compare-model-selector-1");
+        var select2 = document.getElementById("compare-model-selector-2");
+        var model1 = select1.options[select1.selectedIndex].value;
+        var model2 = select2.options[select2.selectedIndex].value;
+        
+        if (prompt == "") {
+          document.getElementById('prompt').placeholder = "Plese insert a prompt...";
+        } else {
+  
+          loadingIndicator.style.display = "inline-block";
+  
+          fetch('/run_lora/' + prompt + '/' + model1)
+          .then(response => response.text())
+          .then(data => {
+  
+            fetch('/run_lora/' + prompt + '/' + model2)
+            .then(response => response.text())
+            .then(data => {
+              loadingIndicator.style.display = "none";
+              console.log(data);
+    
+              window.location.href = "/compare";
+              //window.location.reload();
+            });
+            //window.location.reload();
+        });
+        }
       } else {
+        loadingIndicator = document.getElementById("loadingIndicator")
+        prompt = document.getElementById("prompt").value;
 
-        loadingIndicator.style.display = "inline-block";
+        //get selection
+        var select = document.getElementById("model-selector");
+        var selectedOption = select.options[select.selectedIndex].value;
+        
+        if (prompt == "") {
+          document.getElementById('prompt').placeholder = "Plese insert a prompt...";
+        } else {
 
-        fetch('/run_lora/' + prompt + '/' + selectedOption)
-        .then(response => response.text())
-        .then(data => {
-          loadingIndicator.style.display = "none";
-          console.log(data);
+          loadingIndicator.style.display = "inline-block";
 
-          checkBoxVal = document.getElementById("createGif").value;
-          console.log(checkBoxVal);
+          fetch('/run_lora/' + prompt + '/' + selectedOption)
+          .then(response => response.text())
+          .then(data => {
+            loadingIndicator.style.display = "none";
+            console.log(data);
 
-          window.location.href = "/generated_images";
-          //window.location.reload();
-      });
+            window.location.href = "/generated_images";
+            //window.location.reload();
+        });
+        }
+      }
+    });
+
+
+    
+
+  
+    compareCheckbox.addEventListener("change", function() {
+      if (compareCheckbox.checked) {
+        selectionMenu.style.display = "block";
+        createGifCheckbox.style.display = "none";
+      } else {
+        selectionMenu.style.display = "none";
+        createGifCheckbox.style.display = "block";
       }
     });
   });
+
 
   
 </script>

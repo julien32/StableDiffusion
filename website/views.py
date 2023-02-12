@@ -27,3 +27,15 @@ def generated_images():
     print(files)
     
     return render_template("generated_images.html", user=current_user, gif_images = files)
+
+@views.route('/compare', methods=['GET', 'POST'])
+@login_required
+def generated_images_compare():
+    
+    return render_template("generated_images_compare.html", user=current_user)
+
+@views.route('/prompt_generator', methods=['GET', 'POST'])
+@login_required
+def prompt_generator():
+    
+    return render_template("prompt_generator.html", user=current_user)
