@@ -4,6 +4,7 @@ from .models import Note, User
 from .functions import get_random_images, get_users_trained_models
 from . import db
 import json
+import os
 
 views = Blueprint('views', __name__)
 
@@ -19,4 +20,10 @@ def home():
 @views.route('/generated_images', methods=['GET', 'POST'])
 @login_required
 def generated_images():
-    return render_template("generated_images.html", user=current_user)
+
+    directory = '/home/lamparter/stableDiffusion/StableDiffusionFlask/static/generated_images/'
+
+    files = [os.path.basename(file) for file in os.listdir(directory) if file.endswith('.png')]
+    print(files)
+    
+    return render_template("generated_images.html", user=current_user, gif_images = files)

@@ -151,16 +151,54 @@
     }
   
     .img { display: block; }
+
+    .images-grid {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .images-grid img {
+      width: calc(100% / 5);
+      height: auto;
+      margin-bottom: 20px;
+    }
    
    
   </style>
 
-  {% for image in user.images|reverse %}
-    <div>
-        <img src="/static/generated_images/{{image.image_path}}" class="grid-item img modal-dialog modal-fullscreen-sm-down" alt="Prompt: {{image.prompt}} | Model: {{image.model}}" title="asdfasdf">
-        <a class="btn btn-danger" role="button" href="/static/generated_images/{{image.image_path}}" download="proposed_file_name">Download</a>
-    </div>
+  {% set array = user.images %}
+  {% set reversed_array = array|reverse|first %}
 
-  {% endfor %}
+  <div class="container my-5">
+    <div style="margin-top: 25px; margin-bottom: 45px;">
+      <h1>Generated image</h1>
+      <ul>
+        <li>Prompt: {{reversed_array.prompt}}</li>
+        <li>Model: {{reversed_array.model}}</li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-6">        
+        <div>
+          <img src="/static/generated_images/{{reversed_array.image_path}}" alt="Image 1">
+          <a class="btn btn-danger m-2" role="button" href="/static/generated_images/{{reversed_array.image_path}}" download="proposed_file_name">Download</a>
+        </div>
+      </div>
+      <div class="col-6">
+        <div>
+          <img src="/static/generated_images/{{reversed_array.image_path}}" alt="Image 1">
+          <a class="btn btn-danger m-2" role="button" href="/static/generated_images/{{reversed_array.image_path}}" download="proposed_file_name">Download</a>
+        </div>
+      </div>
+    </div>
+    <div class="row my-5">
+      <div class="col-12">
+        <div class="images-grid">
+          {% for image_path in gif_images %}
+            <img src="/static/generated_images/{{image_path}}" alt="Image 1">
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 
   {% endblock %}

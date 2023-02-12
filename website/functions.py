@@ -60,12 +60,14 @@ def create_image(prompt, model_name, user):
     pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
     
     if model_name != 'stable-diffusion-v1-5':
-        patch_pipe(pipe, '{0}/StableDiffusionFlask/static/trained_models/{1}/{2}/step_1000.safetensors'.format(root_dir, current_user.id, model_name), patch_text=True, patch_ti=True, patch_unet=True)
+        patch_pipe(pipe, '{0}/StableDiffusionFlask/static/trained_models/{1}/{2}'.format(root_dir, current_user.id, model_name), patch_text=True, patch_ti=True, patch_unet=True)
         tune_lora_scale(pipe.unet, 1.00)
+        print("used fine tuned model: ".format(model_name))
         
     image = pipe(prompt, num_inference_steps=50, guidance_scale=7).images[0]
     imagename = '{0}_{1}_{2}.png'.format(prompt, user.id, random.randint(1, 10000000000))
-    image_save_path = "static/generated_images/" + imagename
+    image_save_path_global = "static/generated_images/" + imagename
+    image_save_path_user = "static/generated_images/{0}".format(current_user.id) + imagename
     
     # multiple_images = []
     # for i in [0,1,2]:
@@ -73,7 +75,11 @@ def create_image(prompt, model_name, user):
     #     multiple_images.append(temp_img)
     
     add_note_to_db(imagename, prompt, model_name)
-    image.save(image_save_path)
+    image.save(image_save_path_global)
+    
+    if not os.path.exists('./static/generated_images/{0}'):
+        os.makedirs(image_save_path_user)
+        image.save(image_save_path_user)
     
 
 

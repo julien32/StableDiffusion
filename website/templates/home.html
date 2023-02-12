@@ -179,6 +179,13 @@ button[type="submit"]:hover {
     <button class="bt" style="margin-left: 5px;" id="create-image">Generate</button>
 </div>
 
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="createGif">
+  <label class="form-check-label" for="flexCheckDefault">
+    Create GIF
+  </label>
+</div>
+
 <div align="center">
   <div id="loadingIndicator" class="lds-hourglass" style="display: none; margin-top: 50px; margin-bottom: 50px;"></div>
 </div>
@@ -245,6 +252,10 @@ button[type="submit"]:hover {
         .then(data => {
           loadingIndicator.style.display = "none";
           console.log(data);
+
+          checkBoxVal = document.getElementById("createGif").value;
+          console.log(checkBoxVal);
+
           window.location.href = "/generated_images";
           //window.location.reload();
       });
