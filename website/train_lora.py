@@ -19,7 +19,7 @@ def run_train_lora(imagepath, token, template):
     train_lora_source(
             instance_data_dir = imagepath,
             pretrained_model_name_or_path = '{0}/models/stable-diffusion-v1-5'.format(root_dir),
-            output_dir = '{0}/StableDiffusionFlask/static/trained_models/{1}/{2}'.format(root_dir, current_user.id, token),
+            output_dir = '{0}/StableDiffusionFlask/static/trained_models/{1}/{2}'.format(root_dir, current_user.id, token + "_" + str(uuid.uuid4())),
             train_text_encoder = True,
             resolution = 256,
             train_batch_size = 1,
@@ -76,14 +76,8 @@ def train():
             for file in files:
                 file.save(os.path.join(save_path, file.filename))  
         
-
         
-        
-            
-        text_field_token = request.form['token']
-        token =  str(text_field_token) + "_" + str(uuid.uuid4())    
-        
-        run_train_lora(save_path, token, request.form['type'])    
+        run_train_lora(save_path, request.form['token'], request.form['type'])    
 
         return render_template("train_lora.html", user=current_user)
     

@@ -29,7 +29,7 @@ def run_lora(prompt, model_name):
     create_image(prompt, model_name, user)
     
     
-    flash('Image created!', category='success')
+    # flash('Image created!', category='success')
 
 
     return "finished"
@@ -60,9 +60,9 @@ def create_image(prompt, model_name, user):
     pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
     
     if model_name != 'stable-diffusion-v1-5':
-        patch_pipe(pipe, '{0}/StableDiffusionFlask/static/trained_models/{1}/{2}'.format(root_dir, current_user.id, model_name), patch_text=True, patch_ti=True, patch_unet=True)
+        patch_pipe(pipe, '{0}/StableDiffusionFlask/static/trained_models/{1}/{2}/step_1000.safetensors'.format(root_dir, current_user.id, model_name), patch_text=True, patch_ti=True, patch_unet=True)
         tune_lora_scale(pipe.unet, 1.00)
-        print("used fine tuned model: ".format(model_name))
+        print("used fine tuned model: {0}".format(model_name))
         
     image = pipe(prompt, num_inference_steps=50, guidance_scale=7).images[0]
     imagename = '{0}_{1}_{2}.png'.format(prompt, user.id, random.randint(1, 10000000000))

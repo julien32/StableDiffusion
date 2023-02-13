@@ -1,170 +1,738 @@
 {% extends "base.html" %} {% block title %}Generated Images{% endblock %} {% block content%}
 
 <style>
-
-    .center {
+  .center {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
-   }
-  
-  
-   .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    padding: 10px;
   }
-  
+
+  .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      padding: 10px;
+  }
+
   .grid-item {
-    position: relative;
-    width: 100%;
-    transition: all 0.5s ease;
-  }
-  
-  
-  .input-container {
-    display: flex;
-    align-items: center;
-  }
-  
-  input[type="prompt"] {
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid rgb(240, 240, 240);
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
-    box-shadow: 0px 10px 10px rgb(240, 240, 240);
-  }
-  
-  button[type="submit"] {
-    background-color: rgb(235, 235, 235);
-    color: gray;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .bt {
-    background-color: rgb(235, 235, 235);
-    color: gray;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  select {
-    background-color: rgb(235, 235, 235);
-    color: gray;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: rgb(220, 220, 220);
-    transition: all 0.5s ease-out;
-  }
-  
-  .lds-hourglass {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-  }
-  .lds-hourglass:after {
-    content: " ";
-    display: block;
-    border-radius: 50%;
-    width: 0;
-    height: 0;
-    margin: 8px;
-    box-sizing: border-box;
-    border: 32px solid rgb(143, 106, 106);
-    border-color: rgb(143, 106, 106) transparent rgb(143, 106, 106) transparent;
-    animation: lds-hourglass 1.2s infinite;
-  }
-  @keyframes lds-hourglass {
-    0% {
-      transform: rotate(0);
-      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-    }
-    50% {
-      transform: rotate(900deg);
-      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    }
-    100% {
-      transform: rotate(1800deg);
-    }
-  }
-  
-  /* ----- Style the elements ----- */
-  
-    /* Wrap the image and alt text */
-    /* Will be added with js */
-    .alt-wrap { 
-      display: block;
       position: relative;
-      color: whitesmoke;
-    }
-  
-  /* The alt text itself */
-  /* Will be added with js */
-    .alt-wrap p.alt {
-      position: absolute;
-      opacity: 0; /* hide initially */
-      left: 0; right: 0; bottom: 0;
-      margin: 0;
-      padding: 15px;
-      font-size: 14px;
-      line-height: 22px;
-      background-color: rgba(0,0,0,0.8);
-      transition: all 300ms ease;
-      transition-delay: 300ms;
-    }
-  
-  /* Hovering over the wrapper shows its alt p*/
-    .alt-wrap:hover > p.alt { 
-      opacity: 1; 
-      transition-delay: 0s;
-    }
-  
-    .img-wrap {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-    }
-  
-    .img { display: block; }
+      width: 100%;
+      transition: all 0.5s ease;
+  }
 
-    .images-grid {
+  .input-container {
       display: flex;
-      flex-wrap: wrap;
-    }
-    .images-grid img {
-      width: calc(100% / 5);
-      height: auto;
-      margin-bottom: 20px;
-    }
-   
-   
-  </style>
+      align-items: center;
+  }
 
-  <h1>Prompt Generator</h1>
+  input[type="prompt"] {
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 2px solid rgb(240, 240, 240);
+      border-radius: 4px;
+      font-size: 16px;
+      width: 100%;
+      box-shadow: 0px 10px 10px rgb(240, 240, 240);
+  }
+
+  button {
+      background-color: rgb(235, 235, 235);
+      color: gray;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  .bt {
+      background-color: rgb(235, 235, 235);
+      color: gray;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  select {
+      background-color: rgb(235, 235, 235);
+      color: gray;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  /* button[type="submit"]:hover {
+      background-color: rgb(220, 220, 220);
+      transition: all 0.5s ease-out;
+  }
+
+  INPUT:-webkit-autofill,
+  SELECT:-webkit-autofill,
+  TEXTAREA:-webkit-autofill {
+      animation-name: onautofillstart
+  }
+
+  INPUT:not(:-webkit-autofill),
+  SELECT:not(:-webkit-autofill),
+  TEXTAREA:not(:-webkit-autofill) {
+      animation-name: onautofillcancel
+  }
+
+  @keyframes onautofillstart {}
+
+  @keyframes onautofillcancel {} */
+</style>
+
+  <h1 class="mb-5">Prompt Generator</h1>
+
+  <fieldset>
+
+    <!-- SUBJECT INPUT AND SELECTOR -->
+    <p>
+        <label for="input">Subject</label>
+        <input type="text" id="SubjectInput" placeholder="e.g. A Cat">
+        <select id="SubjectSelect" class="selectpicker" multiple data-live-search="true">
+            <option value="0">Choose...</option>
+            <optgroup label="Fictional">
+                <option value="an angel">an angel</option>
+                <option value="a centaur">a centaur</option>
+                <option value="a cupid">a cupid</option>
+                <option value="a devil">a devil</option>
+                <option value="a dragon">a dragon</option>
+                <option value="a dwarf">a dwarf</option>
+                <option value="an elf">an elf</option>
+                <option value="a fairy">a fairy</option>
+                <option value="a giant">a giant</option>
+                <option value="a ghost">a ghost</option>
+                <option value="a ghoul">a ghoul</option>
+                <option value="a gnome">a gnome</option>
+                <option value="a goblin">a goblin</option>
+                <option value="a hobbit">a hobbit</option>
+                <option value="a leprechaun">a leprechaun</option>
+                <option value="a megalodon">a megalodon</option>
+                <option value="a mermaid">a mermaid</option>
+                <option value="a mummy">a mummy</option>
+                <option value="a ogre">a ogre</option>
+                <option value="a sorcerer">a sorcerer</option>
+                <option value="a skeleton">a skeleton</option>
+                <option value="a sprite">a sprite</option>
+                <option value="a tyrannosaurus rex">a tyrannosaurus rex</option>
+                <option value="a troll">a troll</option>
+                <option value="a unicorn">a unicorn</option>
+                <option value="a vampire">a vampire</option>
+                <option value="a velociraptor">a velociraptor</option>
+                <option value="a warlock">a warlock</option>
+                <option value="a werewolf">a werewolf</option>
+                <option value="a witch">a witch</option>
+                <option value="a wizard">a wizard</option>
+                <option value="a zombie">a zombie</option>
+                <option value="Aphrodite">Aphrodite</option>
+                <option value="Apollo">Apollo</option>
+                <option value="Ares">Ares</option>
+                <option value="Big Foot">Big Foot</option>
+                <option value="Bigfoot">Bigfoot</option>
+                <option value="Chupacabra">Chupacabra</option>
+                <option value="Cthulhu">Cthulhu</option>
+                <option value="Frankenstein's monster">Frankenstein's monster</option>
+                <option value="Godzilla">Godzilla</option>
+                <option value="Hades">Hades</option>
+                <option value="Jack and the bean stalk">Jack and the bean stalk</option>
+                <option value="King Kong">King Kong</option>
+                <option value="Micky Mouse">Micky Mouse</option>
+                <option value="Mothman">Mothman</option>
+                <option value="Poseidon">Poseidon</option>
+                <option value="Sasquatch">Sasquatch</option>
+                <option value="Zues">Zues</option>
+                <option value="The Abominable Snowman">The Abominable Snowman</option>
+                <option value="The Balrog of Morgoth">The Balrog of Morgoth</option>
+                <option value="The Blob">The Blob</option>
+                <option value="The Creature from the Black Lagoon">The Creature from the Black Lagoon</option>
+                <option value="The Jersey Devil">The Jersey Devil</option>
+                <option value="The Kraken">The Kraken</option>
+                <option value="The Loch Ness Monster">The Loch Ness Monster</option>
+                <option value="The Wendigo">The Wendigo</option>
+                <option value="The Yeti">The Yeti</option>
+            </optgroup>
+            <optgroup label="Characters">
+                <option value="Aladdin character">Aladdin character</option>
+                <option value="Ariel the little mermaid character">Ariel the little mermaid character</option>
+                <option value="Atticus Finch character">Atticus Finch character</option>
+                <option value="Bambi character">Bambi character</option>
+                <option value="Barbie character">Barbie character</option>
+                <option value="Batman character">Batman character</option>
+                <option value="Betty Boop character">Betty Boop character</option>
+                <option value="Big Bird character">Big Bird character</option>
+                <option value="Bilbo Baggins character">Bilbo Baggins character</option>
+                <option value="Buffy The Vampire Slayer character">Buffy The Vampire Slayer character</option>
+                <option value="Bugs Bunny character">Bugs Bunny character</option>
+                <option value="Captain America character">Captain America character</option>
+                <option value="Captain Jack Sparrow character">Captain Jack Sparrow character</option>
+                <option value="Charlie Brown character">Charlie Brown character</option>
+                <option value="Cinderella character">Cinderella character</option>
+                <option value="Cliff Huxtable character">Cliff Huxtable character</option>
+                <option value="Cosmo Kramer Seinfeld character">Cosmo Kramer Seinfeld character</option>
+                <option value="Daenerys Targaryen character">Daenerys Targaryen character</option>
+                <option value="Darth Vader character">Darth Vader character</option>
+                <option value="Dirty Harry character">Dirty Harry character</option>
+                <option value="Don Draper character">Don Draper character</option>
+                <option value="Dorothy Gale character">Dorothy Gale character</option>
+                <option value="Dracula character">Dracula character</option>
+                <option value="E.T. character">E.T. character</option>
+                <option value="Edward Scissorhands character">Edward Scissorhands character</option>
+                <option value="Elaine Benes Seinfeld character">Elaine Benes Seinfeld character</option>
+                <option value="Ellen Ripley character">Ellen Ripley character</option>
+                <option value="Eric Cartman southpark character">Eric Cartman southpark character</option>
+                <option value="Frankenstein character">Frankenstein character</option>
+                <option value="Frasier Crane character">Frasier Crane character</option>
+                <option value="Fred Flintstone character">Fred Flintstone character</option>
+                <option value="Freddy Krueger character">Freddy Krueger character</option>
+                <option value="Gandalf character">Gandalf character</option>
+                <option value="George Costanza Seinfeld character">George Costanza Seinfeld character</option>
+                <option value="Godzilla character">Godzilla character</option>
+                <option value="Goku dragon ball z character">Goku dragon ball z character</option>
+                <option value="Han Solo character">Han Solo character</option>
+                <option value="Hank Scorpio from the Simpsons character">Hank Scorpio from the Simpsons character
+                </option>
+                <option value="Hannibal Lecter character">Hannibal Lecter character</option>
+                <option value="Harry Potter character">Harry Potter character</option>
+                <option value="Hawkeye Pierce character">Hawkeye Pierce character</option>
+                <option value="Hercules character">Hercules character</option>
+                <option value="Holly Golightly character">Holly Golightly character</option>
+                <option value="Homer Simpson character">Homer Simpson character</option>
+                <option value="Huckleberry Finn character">Huckleberry Finn character</option>
+                <option value="Hulk character">Hulk character</option>
+                <option value="Indiana Jones character">Indiana Jones character</option>
+                <option value="James Bond character">James Bond character</option>
+                <option value="Jason Voorhees character">Jason Voorhees character</option>
+                <option value="Jay Gatsby character">Jay Gatsby character</option>
+                <option value="John McClane from Die Hard character">John McClane from Die Hard character</option>
+                <option value="Joker character">Joker character</option>
+                <option value="Jon Snow character">Jon Snow character</option>
+                <option value="Katniss Everdeen character">Katniss Everdeen character</option>
+                <option value="Kermit the Frog character">Kermit the Frog character</option>
+                <option value="King Kong character">King Kong character</option>
+                <option value="Lassie character">Lassie character</option>
+                <option value="Marty McFly back to the future character">Marty McFly back to the future character
+                </option>
+                <option value="Mary Poppins character">Mary Poppins character</option>
+                <option value="Mickey Mouse character">Mickey Mouse character</option>
+                <option value="Minnie Mouse character">Minnie Mouse character</option>
+                <option value="Moe, Larry, and Curly character">Moe, Larry, and Curly character</option>
+                <option value="Mowgli character">Mowgli character</option>
+                <option value="Mulan character">Mulan character</option>
+                <option value="Newman Seinfeld character">Newman Seinfeld character</option>
+                <option value="Olaf character">Olaf character</option>
+                <option value="Optimus Prime character">Optimus Prime character</option>
+                <option value="Pac-Man character">Pac-Man character</option>
+                <option value="Peter Pan character">Peter Pan character</option>
+                <option value="Pikachu character">Pikachu character</option>
+                <option value="Pinocchio character">Pinocchio character</option>
+                <option value="Popeye character">Popeye character</option>
+                <option value="Porky Pig character">Porky Pig character</option>
+                <option value="Rapunzel character">Rapunzel character</option>
+                <option value="Robin Hood character">Robin Hood character</option>
+                <option value="Rocky Balboa character">Rocky Balboa character</option>
+                <option value="Romeo and Juliet character">Romeo and Juliet character</option>
+                <option value="Ron Burgundy character">Ron Burgundy character</option>
+                <option value="Ronald McDonald character">Ronald McDonald character</option>
+                <option value="Santa Claus character">Santa Claus character</option>
+                <option value="Scooby-Doo character">Scooby-Doo character</option>
+                <option value="Sherlock Holmes character">Sherlock Holmes character</option>
+                <option value="Shrek character">Shrek character</option>
+                <option value="Simba the lion king character">Simba the lion king character</option>
+                <option value="Snoopy character">Snoopy character</option>
+                <option value="Sonic the Hedgehog character">Sonic the Hedgehog character</option>
+                <option value="Spider-Man character">Spider-Man character</option>
+                <option value="Spock character">Spock character</option>
+                <option value="Spongebob Squarepants character">Spongebob Squarepants character</option>
+                <option value="Super Mario character">Super Mario character</option>
+                <option value="Superman character">Superman character</option>
+                <option value="Tarzan character">Tarzan character</option>
+                <option value="Terminator character">Terminator character</option>
+                <option value="The Genie from Aladdin character">The Genie from Aladdin character</option>
+                <option value="The Grinch character">The Grinch character</option>
+                <option value="The Tramp character">The Tramp character</option>
+                <option value="Timon and Pumbaa character">Timon and Pumbaa character</option>
+                <option value="Tony Montana character">Tony Montana character</option>
+                <option value="Tony Soprano character">Tony Soprano character</option>
+                <option value="Tony Stark (Iron Man) character">Tony Stark (Iron Man) character</option>
+                <option value="Ursula from the little mermaid character">Ursula from the little mermaid character
+                </option>
+                <option value="Vito Corleone character">Vito Corleone character</option>
+                <option value="Willy Wonka character">Willy Wonka character</option>
+                <option value="Winnie-the-Pooh character">Winnie-the-Pooh character</option>
+                <option value="Wolverine character">Wolverine character</option>
+                <option value="Wonder Woman character">Wonder Woman character</option>
+                <option value="Yoda character">Yoda character</option>
+                <option value="Zorro">Zorro</option>
+            </optgroup>
+            <optgroup label="Animals">
+                <option value="an aardvark">an aardvark</option>
+                <option value="an ant">an ant</option>
+                <option value="a badger">a badger</option>
+                <option value="a bat">a bat</option>
+                <option value="a bear">a bear</option>
+                <option value="a beaver">a beaver</option>
+                <option value="a boar">a boar</option>
+                <option value="a buffalo">a buffalo</option>
+                <option value="a bull">a bull</option>
+                <option value="a camel">a camel</option>
+                <option value="a cat">a cat</option>
+                <option value="a cheetah">a cheetah</option>
+                <option value="a chicken">a chicken</option>
+                <option value="a chimpanzee">a chimpanzee</option>
+                <option value="a cow">a cow</option>
+                <option value="a coyote">a coyote</option>
+                <option value="a deer">a deer</option>
+                <option value="a dog">a dog</option>
+                <option value="a dolphin">a dolphin</option>
+                <option value="a duck">a duck</option>
+                <option value="an eagle">an eagle</option>
+                <option value="an elephant">an elephant</option>
+                <option value="an elk">an elk</option>
+                <option value="a ferret">a ferret</option>
+                <option value="a fox">a fox</option>
+                <option value="a frog">a frog</option>
+                <option value="a gazelle">a gazelle</option>
+                <option value="a gecko">a gecko</option>
+                <option value="a gerbil">a gerbil</option>
+                <option value="a gorilla">a gorilla</option>
+                <option value="a hamster">a hamster</option>
+                <option value="a hare">a hare</option>
+                <option value="a hedgehog">a hedgehog</option>
+                <option value="a hippopotamus">a hippopotamus</option>
+                <option value="a horse">a horse</option>
+                <option value="a hyena">a hyena</option>
+                <option value="a jackal">a jackal</option>
+                <option value="a jaguar">a jaguar</option>
+                <option value="a kangaroo">a kangaroo</option>
+                <option value="a koala">a koala</option>
+                <option value="a lemur">a lemur</option>
+                <option value="a leopard">a leopard</option>
+                <option value="a lion">a lion</option>
+                <option value="a lizard">a lizard</option>
+                <option value="a llama">a llama</option>
+                <option value="a marmoset">a marmoset</option>
+                <option value="a mink">a mink</option>
+                <option value="a monkey">a monkey</option>
+                <option value="a moose">a moose</option>
+                <option value="a mouse">a mouse</option>
+                <option value="a muskrat">a muskrat</option>
+                <option value="an ocelot">an ocelot</option>
+                <option value="an opossum">an opossum</option>
+                <option value="an orangutan">an orangutan</option>
+                <option value="an otter">an otter</option>
+                <option value="an owl">an owl</option>
+                <option value="a panda">a panda</option>
+                <option value="a panther">a panther</option>
+                <option value="a pig">a pig</option>
+                <option value="a platypus">a platypus</option>
+                <option value="a porcupine">a porcupine</option>
+                <option value="a puma">a puma</option>
+                <option value="a rabbit">a rabbit</option>
+                <option value="a raccoon">a raccoon</option>
+                <option value="a rat">a rat</option>
+                <option value="a rhinoceros">a rhinoceros</option>
+                <option value="a salmon">a salmon</option>
+                <option value="a seal">a seal</option>
+                <option value="a shark">a shark</option>
+                <option value="a sheep">a sheep</option>
+                <option value="a skunk">a skunk</option>
+                <option value="a sloth">a sloth</option>
+                <option value="a squid">a squid</option>
+                <option value="a squirrel">a squirrel</option>
+                <option value="a tiger">a tiger</option>
+                <option value="a turtle">a turtle</option>
+                <option value="a weasel">a weasel</option>
+                <option value="a whale">a whale</option>
+                <option value="a wolf">a wolf</option>
+                <option value="a wombat">a wombat</option>
+                <option value="a zebra">a zebra</option>
+            </optgroup>
+        </select>
+    </p>
+
+
+    <!-- ACTION INPUT AND SELECTOR -->
+    <p>
+        <label for="input">Action</label>
+        <input type="text" id="ActionInput" placeholder="e.g. breathing fire">
+        <select id="ActionSelect" class="selectpicker" multiple data-live-search="true">
+            <optgroup label="Sports">
+                <option value="kicking a football">kicking a football</option>
+                <option value="throwing a football">throwing a football</option>
+                <option value="catching a football">catching a football</option>
+                <option value="hitting a home run">hitting a home run</option>
+                <option value="riding a bike">riding a bike</option>
+                <option value="scoring a soccer goal">scoring a soccer goal</option>
+                <option value="jumping a snowboard">jumping a snowboard</option>
+                <option value="skiinga a chute">skiinga a chute</option>
+                <option value="riding a jetski">riding a jetski</option>
+                <option value="parasailing">parasailing</option>
+                <option value="driving a car">driving a car</option>
+                <option value="driving a boat">driving a boat</option>
+                <option value="tubing down a river">tubing down a river</option>
+                <option value="riding a horse">riding a horse</option>
+                <option value="rollerblading down the boardwalk">rollerblading down the boardwalk</option>
+                <option value="jumping over a fence">jumping over a fence</option>
+                <option value="shooting a bow and arrow">shooting a bow and arrow</option>
+                <option value="tossing a beanbag">tossing a beanbag</option>
+                <option value="dunking a basketball">dunking a basketball</option>
+                <option value="riding a cow">riding a cow</option>
+                <option value="riding a donkey">riding a donkey</option>
+                <option value="surfing on a car">surfing on a car</option>
+                <option value="surfing the ocean">surfing the ocean</option>
+                <option value="sailing on the high seas">sailing on the high seas</option>
+                <option value="playing cricket">playing cricket</option>
+                <option value="doing a wheelie on a motorcycle">doing a wheelie on a motorcycle</option>
+            </optgroup>
+            <optgroup label="Random Actions">
+                <option value="breathing fire">breathing fire</option>
+                <option value="building a castle with bare hands">building a castle with bare hands</option>
+                <option value="burning a tree">burning a tree</option>
+                <option value="burping loudly like Barney Gumble">burping loudly like Barney Gumble</option>
+                <option value="casting a spell">casting a spell</option>
+                <option value="conjuring a demon">conjuring a demon</option>
+                <option value="conjuring a demon">conjuring a demon</option>
+                <option value="cooking giant pasta">cooking giant pasta</option>
+                <option value="dancing crazily">dancing crazily</option>
+                <option value="eating a whole pizza">eating a whole pizza</option>
+                <option value="falling down a hole">falling down a hole</option>
+                <option value="flying through space">flying through space</option>
+                <option value="getting hit in the knee with an arrow">getting hit in the knee with an arrow</option>
+                <option value="jumping through a portal">jumping through a portal</option>
+                <option value="laughing maniacally">laughing maniacally</option>
+                <option value="levitating above the ground">levitating above the ground</option>
+                <option value="opening a portal">opening a portal</option>
+                <option value="running from an emu">running from an emu</option>
+                <option value="running through a cornfield backwards">running through a cornfield backwards</option>
+                <option value="shooting a fireball">shooting a fireball</option>
+                <option value="spitting out milk">spitting out milk</option>
+                <option value="stomping on a copy machine">stomping on a copy machine</option>
+                <option value="swallowing a planet">swallowing a planet</option>
+                <option value="swallowing a planet">swallowing a planet</option>
+                <option value="swimming in a pool of butter">swimming in a pool of butter</option>
+                <option value="swinging a battleaxe">swinging a battleaxe</option>
+                <option value="tackling a bear">tackling a bear</option>
+                <option value="taming a cobra">taming a cobra</option>
+                <option value="throwing a shriuken">throwing a shriuken</option>
+                <option value="wrestling an alligator">wrestling an alligator</option>
+            </optgroup>
+            <optgroup label="Boring Actions">
+                <option value="baking muffins">baking muffins</option>
+                <option value="cooking">cooking</option>
+                <option value="dancing crazily">dancing crazily</option>
+                <option value="digging a hole">digging a hole</option>
+                <option value="doing a cartwheel">doing a cartwheel</option>
+                <option value="drinking many beers">drinking many beers</option>
+                <option value="falling down the stairs">falling down the stairs</option>
+                <option value="hunting an elk">hunting an elk</option>
+                <option value="playing a guitar">playing a guitar</option>
+                <option value="scrubbing the floor">scrubbing the floor</option>
+                <option value="shaking their fist in the air">shaking their fist in the air</option>
+                <option value="sleeping peacefully">sleeping peacefully</option>
+                <option value="starting a fire">starting a fire</option>
+                <option value="twiddling their thumbs">twiddling their thumbs</option>
+                <option value="welding metal">welding metal</option>
+                <option value="yelling loudly">yelling loudly</option>
+            </optgroup>
+        </select>
+    </p>
+
+
+    <!-- MEDIUM INPUT AND SELECT -->
+    <p>
+        <label for="input">Medium</label>
+        <input type="text" id="MediumInput" placeholder="e.g. Photorealistic">
+        <select id="MediumSelect" class="selectpicker" multiple data-live-search="true">
+            <optgroup label="Medium">
+                <option value="acrylic paint">acrylic paint</option>
+                <option value="canvas">canvas</option>
+                <option value="chalk">chalk</option>
+                <option value="charcoal">charcoal</option>
+                <option value="crayon">crayon</option>
+                <option value="digital painting">digital painting</option>
+                <option value="gouache">gouache</option>
+                <option value="graphite">graphite</option>
+                <option value="ink">ink</option>
+                <option value="oil painting">oil painting</option>
+                <option value="paper">paper</option>
+                <option value="portrait">portrait</option>
+            </optgroup>
+        </select>
+    </p>
+
+
+    <!-- STYLE INPUT AND SELECT -->
+    <p>
+        <label for="input">Style</label>
+        <input type="text" id="StyleInput" placeholder="e.g. Movie Poster">
+        <select id="StyleSelect" class="selectpicker" multiple data-live-search="true">
+            <optgroup label="Style">
+                <option value="Album cover art">Album cover art</option>
+                <option value="Anime cover art">Anime cover art</option>
+                <option value="Board game cover art">Board game cover art</option>
+                <option value="Book cover art">Book cover art</option>
+                <option value="Card game cover art">Card game cover art</option>
+                <option value="Comic book cover art">Comic book cover art</option>
+                <option value="Concept art">Concept art</option>
+                <option value="Coverflow image cover art">Coverflow image cover art</option>
+                <option value="Graphic novel cover art">Graphic novel cover art</option>
+                <option value="LARP game cover art">LARP game cover art</option>
+                <option value="Light novel cover art">Light novel cover art</option>
+                <option value="Magazine cover">Magazine cover</option>
+                <option value="Manga cover art">Manga cover art</option>
+                <option value="Miniatures game cover art">Miniatures game cover art</option>
+                <option value="Movie poster">Movie poster</option>
+                <option value="postal stamp cover art">postal stamp cover art</option>
+                <option value="Promotional image cover art">Promotional image cover art</option>
+                <option value="Role-playing game cover art">Role-playing game cover art</option>
+                <option value="Tabletop game cover art">Tabletop game cover art</option>
+                <option value="Television show cover art">Television show cover art</option>
+                <option value="Video game box cover art">Video game box cover art</option>
+                <option value="Video game cover art">Video game cover art</option>
+                <option value="Wallpaper cover art">Wallpaper cover art</option>
+                <option value="Wargame cover art">Wargame cover art</option>
+                <option value="Webcomic cover art">Webcomic cover art</option>
+            </optgroup>
+        </select>
+    </p>
+
+    <!-- ARTIST INPUT AND SELECT -->
+    <p>
+        <label for="input">Artist</label>
+        <input type="text" id="ArtistInput" placeholder="e.g. artwort by Leonardo da Vinci">
+        <select id="ArtistSelect" class="selectpicker" multiple data-live-search="true">
+            <optgroup label="Artists">
+                <option value="artwork by Albrecht Dürer">artwork by Albrecht Dürer</option>
+                <option value="artwork by Bartholomeus van der Helst">artwork by Bartholomeus van der Helst</option>
+                <option value="artwork by Bernardo Bellotto">artwork by Bernardo Bellotto</option>
+                <option value="artwork by Caravaggio">artwork by Caravaggio</option>
+                <option value="artwork by Caspar David Friedrich">artwork by Caspar David Friedrich</option>
+                <option value="artwork by Edgar Degas">artwork by Edgar Degas</option>
+                <option value="artwork by Edouard Manet">artwork by Edouard Manet</option>
+                <option value="artwork by Eugène Delacroix">artwork by Eugène Delacroix</option>
+                <option value="artwork by Gustav Klimt">artwork by Gustav Klimt</option>
+                <option value="artwork by Gustave Courbet">artwork by Gustave Courbet</option>
+                <option value="artwork by Henri de Toulouse-Lautrec">artwork by Henri de Toulouse-Lautrec</option>
+                <option value="artwork by James Abbott McNeill Whistler">artwork by James Abbott McNeill Whistler
+                </option>
+                <option value="artwork by Johannes Brahms">artwork by Johannes Brahms</option>
+                <option value="artwork by Johannes Vermeer">artwork by Johannes Vermeer</option>
+                <option value="artwork by John Constable">artwork by John Constable</option>
+                <option value="artwork by Leonardo da Vinci">artwork by Leonardo da Vinci</option>
+                <option value="artwork by Michelangelo Buonarroti">artwork by Michelangelo Buonarroti</option>
+                <option value="artwork by Pablo Picasso">artwork by Pablo Picasso</option>
+                <option value="artwork by Paul Cézanne">artwork by Paul Cézanne</option>
+                <option value="artwork by Paul Gauguin">artwork by Paul Gauguin</option>
+                <option value="artwork by Peter Paul Rubens">artwork by Peter Paul Rubens</option>
+                <option value="artwork by Pierre-Auguste Renoir">artwork by Pierre-Auguste Renoir</option>
+                <option value="artwork by Raphael (Raffaello Sanzio Da Urbino)">artwork by Raphael (Raffaello Sanzio
+                    Da Urbino)</option>
+                <option value="artwork by Rembrandt">artwork by Rembrandt</option>
+                <option value="artwork by Sandro Botticelli">artwork by Sandro Botticelli</option>
+                <option value="artwork by Titian">artwork by Titian</option>
+                <option value="artwork by Vincent van Gogh">artwork by Vincent van Gogh</option>
+                <option value="artwork by William Turner">artwork by William Turner</option>
+            </optgroup>
+        </select>
+    </p>
+
+
+    <!-- ADDITIONAL DETAILS INPUT AND SELECT -->
+    <p>
+        <label for="input">Addtitional Details</label>
+        <input type="text" id="AdditionalDetailsInput" placeholder="e.g. low angle">
+        <select id="AdditionalDetailsSelect" class="selectpicker" multiple data-live-search="true">
+            <optgroup label="Additional Details">
+                <option value="bokeh">bokeh</option>
+                <option value="close-up">close-up</option>
+                <option value="dramatic">dramatic</option>
+                <option value="expansive">expansive</option>
+                <option value="extreme long-shot">extreme long-shot</option>
+                <option value="fisheye">fisheye</option>
+                <option value="god rays">god rays</option>
+                <option value="grainy">grainy</option>
+                <option value="highly detailed">highly detailed</option>
+                <option value="landscape">landscape</option>
+                <option value="low angle">low angle</option>
+                <option value="massive scale">massive scale</option>
+                <option value="panomaric">panomaric</option>
+                <option value="psychadelic">psychadelic</option>
+                <option value="realistic">realistic</option>
+                <option value="silk">silk</option>
+                <option value="ultra realistic">ultra realistic</option>
+                <option value="ultra wide-angle">ultra wide-angle</option>
+            </optgroup>
+        </select>
+    </p>
+
+    <!-- COLOR INPUT AND SELECT -->
+    <p>
+        <label for="input">Color</label>
+        <input type="text" id="ColorInput" placeholder="e.g. iridescent gold">
+        <select id="ColorSelect" class="selectpicker" multiple data-live-search="true">
+            <optgroup label="Color">
+                <option value="iridescent gold">iridescent gold</option>
+                <option value="silver">silver</option>
+                <option value="triadic colour scheme">triadic colour scheme</option>
+                <option value="vintage">vintage</option>
+                <option value="washed colors">washed colors</option>
+            </optgroup>
+        </select>
+    </p>
+
+    <!-- LIGHTING INPUT AND SELECT -->
+    <p>
+        <label for="input">Lighting</label>
+        <input type="text" id="LightingInput" placeholder="e.g. Action-packed lighting">
+        <select id="LightingSelect" class="selectpicker" multiple data-live-search="true">
+            <optgroup label="Lighting">
+                <option value="Action-packed lighting">Action-packed lighting</option>
+                <option value="Back lighting">Back lighting</option>
+                <option value="Black and White lighting">Black and White lighting</option>
+                <option value="Cinematic lighting">Cinematic lighting</option>
+                <option value="Comedic lighting">Comedic lighting</option>
+                <option value="Dreamlike lighting">Dreamlike lighting</option>
+                <option value="Expressionistic lighting">Expressionistic lighting</option>
+                <option value="Film Noir lighting">Film Noir lighting</option>
+                <option value="Gloomy lighting">Gloomy lighting</option>
+                <option value="God rays">God rays</option>
+                <option value="Harsh lighting">Harsh lighting</option>
+                <option value="Impersonal lighting">Impersonal lighting</option>
+                <option value="Intimate lighting">Intimate lighting</option>
+                <option value="Lens flare">Lens flare</option>
+                <option value="Mood lighting">Mood lighting</option>
+                <option value="Mystical lighting">Mystical lighting</option>
+                <option value="Nightmarish lighting">Nightmarish lighting</option>
+                <option value="Realistic lighting">Realistic lighting</option>
+                <option value="Romantic lighting">Romantic lighting</option>
+                <option value="Soft illumination">Soft illumination</option>
+                <option value="Spiritual lighting">Spiritual lighting</option>
+                <option value="Surrealistic lighting">Surrealistic lighting</option>
+                <option value="Suspenseful lighting">Suspenseful lighting</option>
+                <option value="Traditional lighting">Traditional lighting</option>
+                <option value="Tragic lighting">Tragic lighting</option>
+                <option value="Twilight lighting">Twilight lighting</option>
+                <option value="Volumetric lighting">Volumetric lighting</option>
+            </optgroup>
+        </select>
+    </p>
+
+
+    <button onclick="myFunction()">Click me to see select output</button>
+
+    <p id="FinalPrompt"></p>
+</fieldset>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+<script>
+    function myFunction() {
+        // Final Prompt HTML Tag to Display resulting Prompt
+        generate_prompt = document.getElementById("FinalPrompt");
+
+        // Gets all the Input text fields inputs
+        var subjectInput = document.getElementById("SubjectInput").value;
+        var actionInput = document.getElementById("ActionInput").value;
+        var mediumInput = document.getElementById("MediumInput").value;
+        var styleInput = document.getElementById("StyleInput").value;
+        var artistInput = document.getElementById("ArtistInput").value;
+        var additionDetailsInput = document.getElementById("AdditionalDetailsInput").value;
+        var colorInput = document.getElementById("ColorInput").value;
+        var lightingInput = document.getElementById("LightingInput").value;
+
+        // Gets all the values which were selected in the dropdown selects
+        var subjectSelect = $("#SubjectSelect").val();
+        var actionSelect = $("#ActionSelect").val();
+        var mediumSelect = $("#MediumSelect").val();
+        var styleSelect = $("#StyleSelect").val();
+        var artistSelect = $("#ArtistSelect").val();
+        var additionalDetailsSelect = $("#AdditionalDetailsSelect").val();
+        var colorSelect = $("#ColorSelect").val();
+        var lightingSelect = $("#LightingSelect").val();
+
+
+        var inputValues_list = [
+            subjectInput,
+            actionInput,
+            mediumInput,
+            styleInput,
+            artistInput,
+            additionDetailsInput,
+            colorInput,
+            lightingInput
+        ]
+
+        var selectValues_list = [
+            subjectSelect,
+            actionSelect,
+            mediumSelect,
+            styleSelect,
+            artistSelect,
+            additionalDetailsSelect,
+            colorSelect,
+            lightingSelect
+        ]
+
+        for (let i=0; i < inputValues_list.length; i++){
+            if (inputValues_list[i] == ""){
+                inputValues_list[i] = null
+            }
+        }
+
+        result_list = [
+            inputValues_list[0],
+            selectValues_list[0],
+            inputValues_list[1],
+            selectValues_list[1],
+            inputValues_list[2],
+            selectValues_list[2],
+            inputValues_list[3],
+            selectValues_list[3],
+            inputValues_list[4],
+            selectValues_list[4],
+            inputValues_list[5],
+            selectValues_list[5],
+            inputValues_list[6],
+            selectValues_list[6],
+            inputValues_list[7],
+            selectValues_list[7],
+        ]
+
+        final_prompt = "";
+
+        for (let i = 0; i < result_list.length; i++) {
+            if (result_list[i] != null) {
+                final_prompt += result_list[i] + ", ";
+            }
+
+        }
+
+        // deletes unnecessary trailing "," at the end
+        final_prompt = final_prompt.replace(/,\s*$/, "");
+
+
+        document.getElementById("FinalPrompt").innerHTML = final_prompt;
+    }
+</script>
 
   {% endblock %}

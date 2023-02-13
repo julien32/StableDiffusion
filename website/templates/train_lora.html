@@ -212,7 +212,7 @@
    
   </style>
 
-  <h1 style="margin-bottom: 75px;">Train Lora</h1>
+  <h1 style="margin-bottom: 75px;">Train with Lora</h1>
 
 <form action="/train_lora" method="post" enctype="multipart/form-data" id="form" style="display: block;">
 	<input type="file" name="files[]" multiple="true" required>
@@ -221,9 +221,9 @@
 		<option value="style">style</option>
 		<option value="object"> object </option>
 	</select>
-	<input placeholder="Type in a class name..." type="text" name="token"/>
+	<input placeholder="Type in a class name... (Elon Musk, Pop Art)" type="text" name="token"/>
     <br>
-	<input align="center" type="submit" value="submit" onclick="showloading()">
+	<input align="center" type="submit" value="Start training" onclick="showloading()">
 </form>
 
 <div align="center">
