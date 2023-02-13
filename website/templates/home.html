@@ -24,6 +24,12 @@
   transition: all 0.5s ease;
 }
 
+button:hover {
+  background-color: purple;
+  transition: all 0.5s ease;
+  color: white;
+}
+
 
 .input-container {
   display: flex;
@@ -298,11 +304,11 @@ button[type="submit"]:hover {
   
           loadingIndicator.style.display = "inline-block";
   
-          fetch('/run_lora/' + prompt + '/' + model1)
+          fetch('/run_lora/' + prompt + '/' + model1 + "/0")
           .then(response => response.text())
           .then(data => {
   
-            fetch('/run_lora/' + prompt + '/' + model2)
+            fetch('/run_lora/' + prompt + '/' + model2 + "/0")
             .then(response => response.text())
             .then(data => {
               loadingIndicator.style.display = "none";
@@ -328,13 +334,26 @@ button[type="submit"]:hover {
 
           loadingIndicator.style.display = "inline-block";
 
-          fetch('/run_lora/' + prompt + '/' + selectedOption)
+          const createGifCheckbox = document.getElementById("createGif");
+          const createGifSelected = createGifCheckbox.checked;
+
+          run_lora_path = '/run_lora/' + prompt + '/' + selectedOption + "/0"
+
+          if (createGifSelected) {
+            run_lora_path = '/run_lora/' + prompt + '/' + selectedOption + "/1"
+          }
+
+          fetch(run_lora_path)
           .then(response => response.text())
           .then(data => {
             loadingIndicator.style.display = "none";
             console.log(data);
 
-            window.location.href = "/generated_images";
+            if (createGifSelected) {
+              window.location.href = "/generated_images";
+            } else {
+              window.location.href = "/generated_images_no_gif";
+            }
             //window.location.reload();
         });
         }

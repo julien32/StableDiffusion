@@ -28,6 +28,12 @@
     display: flex;
     align-items: center;
   }
+
+  button:hover {
+    background-color: purple;
+    transition: all 0.5s ease;
+    color: white;
+  }
   
   input[type="prompt"] {
     padding: 12px 20px;
@@ -185,8 +191,8 @@
       </div>
       <div class="col-6">
         <div>
-          <img src="/static/generated_images/{{reversed_array.image_path}}" alt="Image 1">
-          <a class="btn btn-danger m-2" role="button" href="/static/generated_images/{{reversed_array.image_path}}" download="proposed_file_name">Download</a>
+          <img src="/static/generated_images/{{current_user.id}}/gif/gif.gif" alt="Image 1">
+          <a class="btn btn-danger m-2" role="button" href="/static/generated_images/{{current_user.id}}/gif/gif.gif" download="proposed_file_name">Download</a>
         </div>
       </div>
     </div>
@@ -194,7 +200,7 @@
       <div class="col-12">
         <div class="images-grid">
           {% for image_path in gif_images %}
-            <img src="/static/generated_images/{{image_path}}" alt="Image 1">
+            <img src="/static/generated_images/{{current_user.id}}/gif/{{image_path}}" alt="Image 1">
           {% endfor %}
         </div>
       </div>

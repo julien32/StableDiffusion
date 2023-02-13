@@ -21,12 +21,17 @@ def home():
 @login_required
 def generated_images():
 
-    directory = '/home/lamparter/stableDiffusion/StableDiffusionFlask/static/generated_images/'
+    directory = '/home/lamparter/stableDiffusion/StableDiffusionFlask/static/generated_images/{0}/gif/'.format(current_user.id)
 
-    files = [os.path.basename(file) for file in os.listdir(directory) if file.endswith('.png')]
-    print(files)
+    gif_images = [os.path.basename(file) for file in os.listdir(directory) if file.endswith('.jpg')]
     
-    return render_template("generated_images.html", user=current_user, gif_images = files)
+    return render_template("generated_images.html", user=current_user, gif_images = gif_images)
+
+@views.route('/generated_images_no_gif', methods=['GET', 'POST'])
+@login_required
+def generated_images_no_gif():
+    
+    return render_template("generated_images_no_gif.html", user=current_user)
 
 @views.route('/compare', methods=['GET', 'POST'])
 @login_required
